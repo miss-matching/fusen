@@ -1,4 +1,6 @@
 
+# Module dependencies.
+
 express = require 'express'
 debug = require('debug') 'http'
 mongoose = require 'mongoose'
@@ -13,6 +15,8 @@ app.use express.cookieParser()
 app.use express.cookieSession(secret: 'my secret')
 
 mongoose.connect 'mongodb://localhost:27017/fusen'
+
+# routes
 
 app.use require('./lib/session')
 

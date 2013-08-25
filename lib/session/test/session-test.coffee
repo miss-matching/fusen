@@ -1,4 +1,6 @@
 
+# Module dependencies.
+
 expect = require 'expect.js'
 express = require 'express'
 request = require 'supertest'
@@ -51,7 +53,7 @@ describe 'session', ->
       it 'ユーザ名で問い合わせすること', (done) -> 
         request(@app)
           .post('/sessions')
-          .send(username:'aaaa', password: 'bbbb')
+          .send(username: 'aaaa', password: 'bbbb')
           .end (err, res) =>
             done(err) if err 
             expect(@findOneSpy.lastCall.args[0]).to.have.property 'username', 'aaaa'
@@ -84,7 +86,3 @@ describe 'session', ->
           done(err) if err
           expect(res.header.location).to.equal '/rooms'
           done()
-
-
-
-
