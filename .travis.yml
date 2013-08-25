@@ -8,9 +8,9 @@ services:
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+  - npm install -g coffee
   - npm install
   - npm install -g grunt-cli
 
 script:
-  - coffee --bare --compile --output node_modules/zombie/lib/zombie node_modules/zombie/src/zombie/*.coffee
   - grunt ci
