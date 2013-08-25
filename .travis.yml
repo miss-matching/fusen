@@ -12,5 +12,4 @@ before_script:
   - npm install -g grunt-cli
 
 script:
-  - coffee --bare --compile --output node_modules/zombie/lib/zombie node_modules/zombie/src/zombie/*.coffee
   - grunt ci

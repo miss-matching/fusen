@@ -1,5 +1,9 @@
 
+# Module dependencies.
+
 mongoose = require 'mongoose'
+
+# user schema
 
 userSchema = new mongoose.Schema(
   username: 
@@ -9,5 +13,7 @@ userSchema = new mongoose.Schema(
     type: String
     required: true
 )
+
+# Expose User model.
 
 module.exports = mongoose.model('User', userSchema)

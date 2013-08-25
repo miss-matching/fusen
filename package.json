@@ -4,6 +4,7 @@
   "description": "fusen",
   "main": "app.js",
   "scripts": {
+    "postinstall": "node_modules/.bin/coffee --bare --compile --output node_modules/zombie/lib/zombie node_modules/zombie/src/zombie/*.coffee",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -32,6 +33,7 @@
     "grunt-contrib-coffee": "latest",
     "grunt-contrib-watch": "latest",
     "grunt-mocha-test": "latest",
-    "grunt-cucumber": "latest"
+    "grunt-cucumber": "latest",
+    "coffee-script": "latest"
   }
 }

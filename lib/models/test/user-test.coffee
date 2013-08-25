@@ -1,9 +1,13 @@
+
+# Module dependencies.
+
 expect = require 'expect.js'
 mongoose = require 'mongoose'
 User = require '../user'
 app = require '../../../app'
 
 describe 'User', ->
+
   it 'mongoose.Modelのインスタンスであること', ->
     expect(new User).to.be.a(mongoose.Model)
 
