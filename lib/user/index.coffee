@@ -15,4 +15,9 @@ app.set 'view engine', 'ejs'
 # GET /users
 
 app.get '/users', (req, res) ->
-  res.send 'hello'
+  res.render 'new'
+
+# POST /users
+
+app.post '/users', (req, res) ->
+  res.send 'Hello'
