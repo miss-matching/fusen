@@ -21,23 +21,21 @@ describe 'session', ->
 
   describe 'GET /sessions', ->
 
+    # getするrequestのwrapper
+
+    get = -> request(@app).get('/sessions')
+
     it 'ユーザ名の入力フィールドを表示すること', (done) ->
-      request(@app)
-        .get('/sessions')
-        .expect(/<input.+name=['"]username['"].+>/)
-        .end(done)
+      get.call(@)
+        .expect(/<input.+name=['"]username['"].+>/, done)
 
     it 'パスワードの入力フィールドを表示すること', (done) ->
-      request(@app)
-        .get('/sessions')
-        .expect(/<input.+name=['"]password['"].+>/)
-        .end(done)      
+      get.call(@)
+        .expect(/<input.+name=['"]password['"].+>/, done)
 
     it 'ログインボタンを表示すること', (done) ->
-      request(@app)
-        .get('/sessions')
-        .expect(/<input.+value=['"]login['"].+>/)
-        .end(done)      
+      get.call(@)
+        .expect(/<input.+value=['"]login['"].+>/, done)
 
   describe 'POST /sessions', ->
 
@@ -48,39 +46,38 @@ describe 'session', ->
     afterEach ->
       User.findOne.restore()
 
+    # postするrequestのwrapper
+ 
+    post = (excercise) ->
+      request(@app)
+        .post('/sessions')
+        .send(username: 'aaaa', password: 'bbbb')  
+
     describe 'ユーザコレクションへの問い合わせ', ->
 
-      it 'ユーザ名で問い合わせすること', (done) -> 
-        request(@app)
-          .post('/sessions')
-          .send(username: 'aaaa', password: 'bbbb')
+      it 'ユーザ名で問い合わせすること', (done) ->
+        post.call(@)
           .end (err, res) =>
             done(err) if err 
             expect(@findOneSpy.lastCall.args[0]).to.have.property 'username', 'aaaa'
             done()
 
       it 'パスワードで問い合わせすること', (done) -> 
-        request(@app)
-          .post('/sessions')
-          .send(username:'aaaa', password: 'bbbb')
+        post.call(@)
           .end (err, res) =>
             done(err) if err 
             expect(@findOneSpy.lastCall.args[0]).to.have.property 'password', 'bbbb'
             done()
 
     it 'sessionにユーザIDを保持していること', (done) ->
-        request(@app)
-          .post('/sessions')
-          .send(username:'aaaa', password: 'bbbb')
-          .end (err, res) =>
-            done(err) if err
-            expect(@req.session.user_id).to.equal 'hoge'
-            done()
+      post.call(@)
+        .end (err, res) =>
+          done(err) if err
+          expect(@req.session.user_id).to.equal 'hoge'
+          done()
 
     it '`/rooms`リダイレクトすること', (done) ->
-      request(@app)
-        .post('/sessions')
-        .send(username: 'aaaa', password: 'bbbb')
+      post.call(@)
         .expect(302)
         .end (err, res) =>
           done(err) if err

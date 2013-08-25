@@ -1,4 +1,8 @@
 
+# Module dependencies.
+
+assert = require 'assert'
+
 createUserWrapper = module.exports = ->
 
   @World = require('../support/world').World
@@ -14,9 +18,12 @@ createUserWrapper = module.exports = ->
       .fill('confirm', u.password)
       .pressButton('Sign up', callback)
 
-  @Then /^ユーザ登録されていること$/, (callback) ->
-    callback.pending()
-
-  @Then /^「会議室」にリダイレクトされること$/, (callback) ->
-    callback.pending()
-
+  @Then /^ユーザ登録されていること、「会議室」にリダイレクトされること$/, (callback) ->
+    u = require('../fixtures/user')[1]
+    @db.collection('users')
+      .findOne username: u.username, password: u.password, (err, user) =>
+        callback.fail(err) if err
+        callback.fail('username not match') unless user.username is u.username
+        callback.fail('password not match') unless user.password is u.password
+        # callback.fail('not redirected') unless @browser.location.href.match(/rooms/)
+        callback()

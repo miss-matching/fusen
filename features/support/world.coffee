@@ -14,6 +14,7 @@ class World
     @browser = new Zombie()
     @app = require '../../app'
     @server = null
+    @db = mongoose.connection.db
     @visit = (url, callback) => @browser.visit url, callback
     callback()
 

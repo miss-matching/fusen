@@ -20,4 +20,7 @@ app.get '/users', (req, res) ->
 # POST /users
 
 app.post '/users', (req, res) ->
-  res.send 'Hello'
+  user = new User(req.body)
+  user.save (err, user) ->
+    throw err if err
+    res.send user
