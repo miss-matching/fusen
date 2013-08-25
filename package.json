@@ -1,0 +1,37 @@
+{
+  "name": "fusen",
+  "version": "0.0.1",
+  "description": "fusen",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:miss-matching/fusen.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/miss-matching/fusen/issues"
+  },
+  "dependencies": {
+    "express": "latest",
+    "ejs": "latest",
+    "debug": "latest",
+    "async": "latest",
+    "grunt": "latest",
+    "mongoose": "latest"
+  },
+  "devDependencies": {
+    "cucumber": "latest",
+    "zombie": "git://github.com/p-baleine/zombie.git#topic-jsdom-update",
+    "expect.js": "latest",
+    "sinon": "latest",
+    "supertest": "latest",
+    "grunt-contrib-coffee": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-mocha-test": "latest",
+    "grunt-cucumber": "latest"
+  }
+}
