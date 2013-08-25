@@ -4,7 +4,6 @@ Zombie = require 'zombie'
 async = require 'async'
 debug = require('debug') 'cucumber'
 mongoose = require 'mongoose'
-User = require '../../lib/models/user'
 
 # World
 
@@ -26,7 +25,8 @@ class World
 
   seedUser: (callback) ->
     data = require '../fixtures/user'
-    User.create data, callback
+    users = mongoose.connection.db.collection 'users'
+    users.insert data, callback
     
 # Expose `World`.
 
