@@ -39,3 +39,9 @@ module.exports = (grunt) ->
     'coffee'
     'mochaTest'
   ]
+
+  grunt.registerTask 'ci', [
+    'coffee'
+    'mochaTest'
+    'cucumberjs'
+  ]
