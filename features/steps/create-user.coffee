@@ -4,7 +4,7 @@ createUserWrapper = module.exports = ->
   @World = require('../support/world').World
 
   @Given /^ユーザ作成画面を開く$/, (callback) ->
-    callback.pending()
+    @visit 'http://localhost:3000/users', callback
 
   @When /^ユーザ名を入力する$/, (callback) ->
     callback.pending()

@@ -14,7 +14,8 @@ app.use express.cookieSession(secret: 'my secret')
 
 mongoose.connect 'mongodb://localhost:27017/fusen'
 
-app.use require('./lib/session')
+app.use require './lib/session'
+app.use require './lib/user'
 
 app.get '/rooms', (req, res) ->
   res.send 'Hello world'
