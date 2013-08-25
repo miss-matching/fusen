@@ -13,14 +13,20 @@ class World
   constructor: (callback) ->
     @browser = new Zombie()
     @app = require '../../app'
+    @server = null
     @visit = (url, callback) => @browser.visit url, callback
     callback()
 
   # Boot server on localhost:3000.
  
   bootServer: (callback) ->
-    @app.listen 3000
+    @server = @app.listen 3000
     callback()
+
+  # Shutdown server.
+
+  shutdownServer: (callback) ->
+    @server.close callback
 
   # Seed user.
 
