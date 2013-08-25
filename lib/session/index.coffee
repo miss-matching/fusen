@@ -1,10 +1,11 @@
 
+# Module dependencies.
+
 express = require 'express'
 debug = require('debug') 'http'
 User = require '../models/user'
 
 app = module.exports = express()
-
 
 # setting
 
