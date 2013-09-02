@@ -7,7 +7,7 @@ loginWrapper = module.exports = ->
     @visit 'http://localhost:3000/sessions', callback
 
   @When /^ユーザ名とパスワードを入力してサブミットする$/, (callback) ->  
-    u = require('../fixtures/user')[0]
+    u = require('../fixtures/user')['registered user']
     @browser
       .fill('username', u.username)
       .fill('password', u.password)

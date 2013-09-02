@@ -1,10 +1,10 @@
-[
-  {
+{
+  "registered user": {
     "username": "tarou",
     "password": "uorat"
   },
-  {
+  "not registered user": {
     "username": "new user",
     "password": "resu wen"
   }
-]
+}

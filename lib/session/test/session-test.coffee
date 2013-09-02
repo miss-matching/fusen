@@ -1,6 +1,5 @@
 
 # Module dependencies.
-
 expect = require 'expect.js'
 express = require 'express'
 request = require 'supertest'
@@ -22,7 +21,6 @@ describe 'session', ->
   describe 'GET /sessions', ->
 
     # getするrequestのwrapper
-
     get = -> request(@app).get('/sessions')
 
     it 'ユーザ名の入力フィールドを表示すること', (done) ->
@@ -47,7 +45,6 @@ describe 'session', ->
       User.findOne.restore()
 
     # postするrequestのwrapper
- 
     post = (excercise) ->
       request(@app)
         .post('/sessions')

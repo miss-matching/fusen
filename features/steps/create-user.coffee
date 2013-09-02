@@ -1,9 +1,13 @@
 
 # Module dependencies.
-
 assert = require 'assert'
+expect = require 'expect.js'
 
 createUserWrapper = module.exports = ->
+
+  user = (exists = false) ->
+    key = if exists then 'registered user' else 'not registered user'
+    require('../fixtures/user')[key]
 
   @World = require('../support/world').World
 
@@ -11,15 +15,31 @@ createUserWrapper = module.exports = ->
     @visit 'http://localhost:3000/users', callback
 
   @When /^ユーザ名、パスワード、パスワードの確認を入力してサブミットする$/, (callback) ->
-    u = require('../fixtures/user')[1]
+    u = user()
     @browser
       .fill('username', u.username)
       .fill('password', u.password)
       .fill('confirm', u.password)
       .pressButton('Sign up', callback)
 
+  @When /^ユーザ名を入力し、パスワードとパスワードの確認に異なる値を入力してサブミットする$/, (callback) ->
+    u = user()
+    @browser
+      .fill('username', u.username)
+      .fill('password', u.password + '!')
+      .fill('confirm', u.password)
+      .pressButton('Sign up', callback)
+
+  @When /^既存のユーザ名、パスワード、パスワードの確認を入力してサブミットする$/, (callback) ->
+    u = user true
+    @browser
+      .fill('username', u.username)
+      .fill('password', u.password)
+      .fill('confirm', u.password)
+      .pressButton('Sign up', callback)
+  
   @Then /^ユーザ登録されていること$/, (callback) ->
-    u = require('../fixtures/user')[1]
+    u = user()
     @db.collection('users')
       .findOne username: u.username, password: u.password, (err, user) =>
         callback.fail(err) if err
@@ -33,24 +53,24 @@ createUserWrapper = module.exports = ->
     else
       callback.fail 'not redirected'
 
-  @When /^ユーザ名を入力し、パスワードとパスワードの確認に異なる値を入力してサブミットする$/, (callback) ->
-    u = require('../fixtures/user')[1]
-    @browser
-      .fill('username', u.username)
-      .fill('password', u.password + '!')
-      .fill('confirm', u.password)
-      .pressButton('Sign up', callback)
-
   @Then /^ユーザ登録されていないこと$/, (callback) ->
-    u = require('../fixtures/user')[1]
+    u = user()
     @db.collection('users')
       .findOne username: u.username, password: u.password, (err, user) =>
         callback.fail(err) if err
         if user then callback.fail('user should not be saved') else callback()
 
   @Then /^ユーザ作成画面が表示されること$/, (callback) ->
-    callback.pending()
+    expect(@browser.query 'input[value="Sign up"]').to.not.be null
+    callback()
 
   @Then /^パスワードとパスワードの確認の値が異なる旨の警告メッセージが表示されること$/, (callback) ->
-    callback.pending()
+    expect(@browser.query '.error').to.not.be null
+    expect(@browser.text '.error').to.contain 'password dose not match'
+    callback()
 
+  @Then /^既に入力されたユーザ名使用されている旨の警告メッセージが表示されること$/, (callback) ->
+    expect(@browser.query '.error').to.not.be null
+    expect(@browser.text '.error').to.contain 'user already exists'
+    callback()
+  
