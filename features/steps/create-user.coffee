@@ -25,5 +25,5 @@ createUserWrapper = module.exports = ->
         callback.fail(err) if err
         callback.fail('username not match') unless user.username is u.username
         callback.fail('password not match') unless user.password is u.password
-        # callback.fail('not redirected') unless @browser.location.href.match(/rooms/)
+        callback.fail('not redirected') unless @browser.location.href.match(/rooms/)
         callback()

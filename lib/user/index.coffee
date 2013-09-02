@@ -23,4 +23,5 @@ app.post '/users', (req, res) ->
   user = new User(req.body)
   user.save (err, user) ->
     throw err if err
-    res.send user
+    req.session.user_id = user._id
+    res.redirect '/rooms'

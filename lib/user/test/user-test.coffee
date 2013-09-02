@@ -13,6 +13,10 @@ describe 'user', ->
   beforeEach ->
     @app = express()
     @app.use express.bodyParser()
+    @app.use (req, res, next) => # fake session
+      @req = req
+      @req.session = {}
+      next()
     @app.use user
 
   describe 'GET /users', ->
@@ -44,7 +48,7 @@ describe 'user', ->
       password: 'saved user password'
 
     beforeEach ->
-      @saveSpy = sinon.spy User::, 'save'
+      @saveStub = sinon.stub User::, 'save', (cb) -> cb(null, _id: 'hoge')
 
     afterEach ->
       User::save.restore()
@@ -59,13 +63,27 @@ describe 'user', ->
     it '与えられたユーザ名でユーザを保存すること', (done) ->
       post.call(@)
         .end (err, res) =>
-          expect(@saveSpy.lastCall.thisValue).to.have.property 'username', data.username
+          expect(@saveStub.lastCall.thisValue).to.have.property 'username', data.username
           done()
 
     it '与えられたパスワードでユーザを保存すること', (done) ->
       post.call(@)
         .end (err, res) =>
-          expect(@saveSpy.lastCall.thisValue).to.have.property 'password', data.password
+          expect(@saveStub.lastCall.thisValue).to.have.property 'password', data.password
+          done()
+
+    it '`/rooms`にリダイレクトすること', (done) ->
+      post.call(@)
+        .end (err, res) =>
+          done err if err
+          expect(res.header.location).to.equal '/rooms'
+          done()
+
+    it 'sessionにユーザIDを保持していること', (done) ->
+      post.call(@)
+        .end (err, res) =>
+          done err if err
+          expect(@req.session.user_id).to.equal 'hoge'
           done()
 
     describe '確認用パスワード', ->
