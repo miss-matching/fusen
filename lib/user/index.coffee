@@ -7,6 +7,9 @@ User = require '../models/user'
 
 app = module.exports = express()
 
+# middlewre
+app.use express.errorHandler()
+
 # setting
 
 app.set 'views', __dirname
@@ -19,7 +22,8 @@ app.get '/users', (req, res) ->
 
 # POST /users
 
-app.post '/users', (req, res) ->
+app.post '/users', (req, res, next) ->
+  throw new Error('password confirm failed') unless req.body.password is req.body.confirm
   user = new User(req.body)
   user.save (err, user) ->
     throw err if err

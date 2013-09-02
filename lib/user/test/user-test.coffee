@@ -88,5 +88,12 @@ describe 'user', ->
 
     describe '確認用パスワード', ->
 
-      it 'パスワードと一致しない場合エラーを返却すること'
+      it 'パスワードと一致しない場合エラーを返却すること', (done) ->
+        request(@app)
+          .post('/users')
+          .send(username: data.username, password: data.password, confirm: 'piyo')
+          .end (err, res) =>
+            done err if err
+            expect(res.statusCode).to.be 500
+            done()
 
