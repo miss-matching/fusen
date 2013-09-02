@@ -23,7 +23,8 @@ app.get '/users', (req, res) ->
 # POST /users
 
 app.post '/users', (req, res, next) ->
-  throw new Error('password confirm failed') unless req.body.password is req.body.confirm
+#  throw new Error('password confirm failed') unless req.body.password is req.body.confirm
+  return res.render 'new' unless req.body.password is req.body.confirm
   user = new User(req.body)
   user.save (err, user) ->
     throw err if err
