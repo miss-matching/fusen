@@ -12,7 +12,7 @@ app.use express.errorHandler()
 # setting
 app.set 'views', __dirname
 app.set 'view engine', 'ejs'
-app.locals = error: []
+app.locals.messages = []
 
 # GET /users
 app.get '/users', (req, res) ->
@@ -22,14 +22,14 @@ app.get '/users', (req, res) ->
 app.post '/users', (req, res, next) ->
   unless req.body.password is req.body.confirm
     # パスワードが一致しない場合
-    return res.render 'new', error: ['password dose not match']
+    return res.render 'new', messages: ['password dose not match']
 
   user = new User(req.body)
 
   user.save (err, user) ->
     if err?.message.match /E11000/
       # ユーザ名が既に登録されている場合
-      res.render 'new', error: ['user already exists']
+      res.render 'new', messages: ['user already exists']
     else
       throw err if err
       req.session.user_id = user._id

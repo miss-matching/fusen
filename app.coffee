@@ -28,3 +28,5 @@ unless module.parent
   app.listen 3000
   debug 'listening to 3000'
 
+# TODO express-resourceに乗り換え？
+# TODO テストディレクトリをトップに切る？

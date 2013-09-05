@@ -65,10 +65,11 @@ describe 'user', ->
             expect(@saveStub.lastCall.thisValue).to.have.property 'username', data.username
             done()
 
-      it '与えられたパスワードでユーザを保存すること', (done) ->
+      it '与えられたパスワードを暗号化してユーザを保存すること', (done) ->
         post.call(@)
           .end (err, res) =>
-            expect(@saveStub.lastCall.thisValue).to.have.property 'password', data.password
+            expect(@saveStub.lastCall.thisValue).to.have.property 'password'
+            expect(@saveStub.lastCall.thisValue.password).to.not.equal data.password
             done()
 
       it '`/rooms`にリダイレクトすること', (done) ->
@@ -113,7 +114,7 @@ describe 'user', ->
 
         it 'パスワードが一致しない場合新規作成画面でエラー文言を描画すること', (done) ->
           postWithInvalidPassword.call(@)
-            .expect(/class=['"]error['"]/)
+            .expect(/class=['"]messages['"]/)
             .expect(/password dose not match/, done)
 
       describe '既存のユーザ名を指定した場合', ->
@@ -130,5 +131,5 @@ describe 'user', ->
             .post('/users')
             .send(username: data.username, password: data.password, confirm: data.password)
             .expect(/<input.+value=['"]Sign up['"].+>/)
-            .expect(/class=['"]error['"]/, done)
+            .expect(/class=['"]messages['"]/, done)
   

@@ -41,10 +41,9 @@ createUserWrapper = module.exports = ->
   @Then /^ユーザ登録されていること$/, (callback) ->
     u = user()
     @db.collection('users')
-      .findOne username: u.username, password: u.password, (err, user) =>
+      .findOne username: u.username, (err, user) =>
         callback.fail(err) if err
         callback.fail('username not match') unless user.username is u.username
-        callback.fail('password not match') unless user.password is u.password
         callback()
 
   @Then /^会議室にリダイレクトされること$/, (callback) ->
@@ -56,7 +55,7 @@ createUserWrapper = module.exports = ->
   @Then /^ユーザ登録されていないこと$/, (callback) ->
     u = user()
     @db.collection('users')
-      .findOne username: u.username, password: u.password, (err, user) =>
+      .findOne username: u.username, (err, user) =>
         callback.fail(err) if err
         if user then callback.fail('user should not be saved') else callback()
 
@@ -65,12 +64,12 @@ createUserWrapper = module.exports = ->
     callback()
 
   @Then /^パスワードとパスワードの確認の値が異なる旨の警告メッセージが表示されること$/, (callback) ->
-    expect(@browser.query '.error').to.not.be null
-    expect(@browser.text '.error').to.contain 'password dose not match'
+    expect(@browser.query '.messages').to.not.be null
+    expect(@browser.text '.messages').to.contain 'password dose not match'
     callback()
 
   @Then /^既に入力されたユーザ名使用されている旨の警告メッセージが表示されること$/, (callback) ->
-    expect(@browser.query '.error').to.not.be null
-    expect(@browser.text '.error').to.contain 'user already exists'
+    expect(@browser.query '.messages').to.not.be null
+    expect(@browser.text '.messages').to.contain 'user already exists'
     callback()
   

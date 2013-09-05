@@ -37,18 +37,20 @@ describe 'session', ->
 
   describe 'POST /sessions', ->
 
-    beforeEach ->
-      @findOneSpy = sinon.stub User, 'findOne', (params, callback) ->
-        callback(null, _id: 'hoge')
-
-    afterEach ->
-      User.findOne.restore()
-
     # postするrequestのwrapper
     post = (excercise) ->
       request(@app)
         .post('/sessions')
         .send(username: 'aaaa', password: 'bbbb')  
+
+    beforeEach ->
+      @comparePasswordStub = sinon.stub()
+      @findOneSpy = sinon.stub User, 'findOne', (params, callback) =>
+        callback(null, _id: 'hoge', comparePassword: @comparePasswordStub)
+      @comparePasswordStub.callsArgWith 1, null, true
+
+    afterEach ->
+      User.findOne.restore()
 
     describe 'ユーザコレクションへの問い合わせ', ->
 
@@ -59,12 +61,27 @@ describe 'session', ->
             expect(@findOneSpy.lastCall.args[0]).to.have.property 'username', 'aaaa'
             done()
 
-      it 'パスワードで問い合わせすること', (done) -> 
+      it 'User#comparePasswordで入力されたパスワードを比較すること', (done) ->
         post.call(@)
           .end (err, res) =>
             done(err) if err 
-            expect(@findOneSpy.lastCall.args[0]).to.have.property 'password', 'bbbb'
+            expect(@comparePasswordStub.called).to.be.ok()
             done()
+
+      describe 'User#comparePasswordの結果がマッチしないとき', ->
+
+        beforeEach ->
+          @comparePasswordStub.resetBehavior()
+          @comparePasswordStub.callsArgWith 1, null, false
+
+        it 'ログイン画面を表示すること', (done) ->
+          post.call(@)
+            .expect(/<input.+value=['"]login['"].+>/, done)
+
+        it 'username又はpasswordが間違っている旨表示すること', (done) ->
+          post.call(@)
+            .expect(/class=['"]messages['"]/)
+            .expect(/Name or password is incorrect/, done)
 
     it 'sessionにユーザIDを保持していること', (done) ->
       post.call(@)
