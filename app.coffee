@@ -27,5 +27,3 @@ app.get '/rooms', (req, res) ->
 unless module.parent
   app.listen 3000
   debug 'listening to 3000'
-
-# TODO テストディレクトリをトップに切る？
