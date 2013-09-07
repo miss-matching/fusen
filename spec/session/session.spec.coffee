@@ -1,21 +1,16 @@
 
 # Module dependencies.
 expect = require 'expect.js'
-express = require 'express'
 request = require 'supertest'
 sinon = require 'sinon'
 session = require '../../lib/session'
 User = require '../../lib/models/user'
+specHelper = require '../spec-helper'
 
 describe 'session', ->
 
   beforeEach ->
-    @app = express()
-    @app.use express.bodyParser()
-    @app.use (req, res, next) => # fake session
-      @req = req
-      @req.session = {}
-      next()
+    @app = specHelper.setUpAppWithFakeSession.call @
     @app.use session
 
   describe 'GET /sessions', ->
