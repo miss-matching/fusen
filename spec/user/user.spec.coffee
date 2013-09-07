@@ -4,8 +4,8 @@ expect = require 'expect.js'
 express = require 'express'
 request = require 'supertest'
 sinon = require 'sinon'
-user = require '../'
-User = require '../../models/user'
+user = require '../../lib/user'
+User = require '../../lib/models/user'
 
 describe 'user', ->
 

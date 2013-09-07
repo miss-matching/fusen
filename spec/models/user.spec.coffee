@@ -3,8 +3,8 @@
 
 expect = require 'expect.js'
 mongoose = require 'mongoose'
-User = require '../user'
-app = require '../../../app'
+User = require '../../lib/models/user'
+app = require '../../app'
 
 describe 'User', ->
 
