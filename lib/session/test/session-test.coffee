@@ -21,7 +21,7 @@ describe 'session', ->
   describe 'GET /sessions', ->
 
     # getするrequestのwrapper
-    get = -> request(@app).get('/sessions')
+    get = -> request(@app).get('/')
 
     it 'ユーザ名の入力フィールドを表示すること', (done) ->
       get.call(@)
@@ -40,7 +40,7 @@ describe 'session', ->
     # postするrequestのwrapper
     post = (excercise) ->
       request(@app)
-        .post('/sessions')
+        .post('/')
         .send(username: 'aaaa', password: 'bbbb')  
 
     beforeEach ->

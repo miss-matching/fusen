@@ -11,12 +11,12 @@ app.set 'views', __dirname
 app.set 'view engine', 'ejs'
 app.locals.messages = []
 
-# GET /sessions
-app.get '/sessions', (req, res) ->
+# GET /
+app.get '/', (req, res) ->
   res.render 'new'
 
-# POST /sessions
-app.post '/sessions', (req, res) ->
+# POST /
+app.post '/', (req, res) ->
   body = req.body
   authenticate body.username, body.password, (err, user) ->
     if user

@@ -21,7 +21,7 @@ describe 'user', ->
   describe 'GET /users', ->
 
     # getするrequestのwrapper
-    get = -> request(@app).get('/users')
+    get = -> request(@app).get('/')
 
     it 'ユーザ名の入力フィールドを表示すること', (done) ->
       get.call(@)
@@ -56,7 +56,7 @@ describe 'user', ->
       # postするrequestのwrapper
       post = (excercise) ->
         request(@app)
-          .post('/users')
+          .post('/')
           .send(username: data.username, password: data.password, confirm: data.password)
 
       it '与えられたユーザ名でユーザを保存すること', (done) ->
@@ -98,7 +98,7 @@ describe 'user', ->
   
         postWithInvalidPassword = (excercies) ->
           request(@app)
-            .post('/users')
+            .post('/')
             .send(username: data.username, password: data.password, confirm: 'piyo')
 
         it '保存しないこと', (done) ->
@@ -128,7 +128,7 @@ describe 'user', ->
 
         it 'エラー文言と共に新規作成画面を描画すること', (done) ->
           request(@app)
-            .post('/users')
+            .post('/')
             .send(username: data.username, password: data.password, confirm: data.password)
             .expect(/<input.+value=['"]Sign up['"].+>/)
             .expect(/class=['"]messages['"]/, done)
