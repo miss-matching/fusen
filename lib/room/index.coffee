@@ -26,7 +26,7 @@ app.post '/', (req, res) ->
   room.created_user = req.session.user_id 
   User.findOne username: req.body.invite, (err, user) ->
     throw err if err
-    room.join_users.push user._id
+    room.join_users.push user._id if user
     room.save (err, room) ->
       throw err if err
       res.send 'Hello world'
