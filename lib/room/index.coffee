@@ -18,3 +18,7 @@ app.get '/new', (req, res) ->
 # GET /
 app.get '/', (req, res) ->
   res.send 'Hello world'
+
+# POST /
+app.post '/', (req, res) ->
+  res.send 'Hello world'

@@ -4,8 +4,12 @@ module.exports = (grunt) ->
 
     watch:
       coffee:
-        files: ['app.coffee', 'lib/**/*.coffee', 'spec/**/*.coffee']
+        files: ['app.coffee', 'lib/**/*.coffee', 'spec/**/*.coffee', 'lib/**/*.ejs']
         tasks: ['unit']
+
+      cucumberjs:
+        files: ['features/steps/**/*.coffee']
+        tasks: ['feature']
 
     coffee:
       server:

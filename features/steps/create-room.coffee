@@ -3,6 +3,7 @@
 async = require 'async'
 expect = require 'expect.js'
 User = require '../../lib/models/user'
+invitedUser = require('../fixtures/user')['invited user']
 
 createUserWrapper = module.exports = ->
 
@@ -23,8 +24,7 @@ createUserWrapper = module.exports = ->
     ], callback
 
   @Given /^招待対象のユーザが登録されている$/, (callback) ->
-    u = require('../fixtures/user')['invited user']
-    User.create u, callback
+    User.create invitedUser, callback
 
   @Given /^会議室作成画面を開く$/, (callback) ->
     @visit 'http://localhost:3000/rooms/new', callback
@@ -40,14 +40,13 @@ createUserWrapper = module.exports = ->
     callback()
 
   @When /^招待対象のユーザを参加ユーザとして指定する$/, (callback) ->
-    
-    # express the regexp above with the code you wish you had
-    callback.pending()
+    @browser
+      .fill('invite', invitedUser.username)
+    callback()
 
   @When /^作成ボタンを押下する$/, (callback) ->
-    
-    # express the regexp above with the code you wish you had
-    callback.pending()
+    @browser
+      .pressButton('Create', callback)
 
   @Then /^会議室が作成されること$/, (callback) ->
     
