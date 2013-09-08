@@ -13,7 +13,7 @@ app.locals.messages = []
 
 # GET /new
 app.get '/new', (req, res) ->
-  res.send 'hellow world'
+  res.render 'new'
 
 # GET /
 app.get '/', (req, res) ->

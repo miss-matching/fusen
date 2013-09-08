@@ -18,3 +18,13 @@ describe 'room', ->
       request(@app)
         .get('/new')
         .expect(200, done)
+
+    it 'titleのインプットを描画する', (done) ->
+      request(@app)
+        .get('/new')
+        .expect(/<input.+name=['"]title['"].+>/, done)
+
+    it 'descriptionのテキストエリアを描画する', (done) ->
+      request(@app)
+        .get('/new')
+        .expect(/<textarea.+name=['"]description['"].+>/, done)

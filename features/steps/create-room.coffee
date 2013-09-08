@@ -30,14 +30,14 @@ createUserWrapper = module.exports = ->
     @visit 'http://localhost:3000/rooms/new', callback
 
   @When /^タイトルを入力する$/, (callback) ->
-    
-    # express the regexp above with the code you wish you had
-    callback.pending()
+    @browser
+      .fill('title', "会議")
+    callback()
 
   @When /^詳細を入力する$/, (callback) ->
-    
-    # express the regexp above with the code you wish you had
-    callback.pending()
+    @browser
+      .fill('description', "詳細です")
+    callback()
 
   @When /^招待対象のユーザを参加ユーザとして指定する$/, (callback) ->
     
