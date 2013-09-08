@@ -2,7 +2,8 @@
 # Module dependencies.
 express = require 'express'
 debug = require('debug') 'http'
-User = require '../models/user'
+Room = require '../models/room'
+User = require '../models/user' 
 
 app = module.exports = express()
 
@@ -21,4 +22,12 @@ app.get '/', (req, res) ->
 
 # POST /
 app.post '/', (req, res) ->
-  res.send 'Hello world'
+  room = new Room req.body
+  room.created_user = req.session.user_id 
+  User.findOne username: req.body.invite, (err, user) ->
+    throw err if err
+    room.join_users.push user._id
+    room.save (err, room) ->
+      throw err if err
+      res.send 'Hello world'
+

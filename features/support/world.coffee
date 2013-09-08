@@ -28,9 +28,11 @@ class World
   # Seed user.
   seedUser: (callback) ->
     data = require('../fixtures/user')['registered user']
-    User.remove (err) ->
+    User.remove (err) =>
       throw err if err
-      User.create data, callback
+      User.create data, (err, user) =>
+        @registerdUserId = user._id
+        callback()
     
 # Expose `World`.
 exports.World = World

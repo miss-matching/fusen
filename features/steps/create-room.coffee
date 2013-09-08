@@ -24,7 +24,10 @@ createUserWrapper = module.exports = ->
     ], callback
 
   @Given /^招待対象のユーザが登録されている$/, (callback) ->
-    User.create invitedUser, callback
+    User.create invitedUser, (err, user) =>
+      callback.fail(err) if err
+      @invitedUserId = user._id
+      callback()
 
   @Given /^会議室作成画面を開く$/, (callback) ->
     @visit 'http://localhost:3000/rooms/new', callback
@@ -49,9 +52,14 @@ createUserWrapper = module.exports = ->
       .pressButton('Create', callback)
 
   @Then /^会議室が作成されること$/, (callback) ->
-    
-    # express the regexp above with the code you wish you had
-    callback.pending()
+    @db.collection('rooms')
+      .findOne created_user: @registerdUserId, (err, room) =>
+        callback.fail(err) if err
+        callback.fail('room title not match') unless room.title is "会議"
+        joinUsers = room.join_users.map((u) -> u.toString())
+        invitedUserId = @invitedUserId.toString()
+        callback.fail('invalite user not included') unless !!~joinUsers.indexOf(invitedUserId)
+        callback()
 
   @Then /^招待対象のユーザにメールが送信されること$/, (callback) ->
     
