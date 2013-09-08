@@ -18,8 +18,8 @@ mongoose.connect 'mongodb://localhost:27017/fusen'
 
 # routes
 
-app.use require './lib/session'
-app.use require './lib/user'
+app.use '/sessions', require './lib/session'
+app.use '/users', require './lib/user'
 
 app.get '/rooms', (req, res) ->
   res.send 'Hello world'
@@ -27,6 +27,3 @@ app.get '/rooms', (req, res) ->
 unless module.parent
   app.listen 3000
   debug 'listening to 3000'
-
-# TODO express-resourceに乗り換え？
-# TODO テストディレクトリをトップに切る？

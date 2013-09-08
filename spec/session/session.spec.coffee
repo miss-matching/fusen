@@ -1,27 +1,22 @@
 
 # Module dependencies.
 expect = require 'expect.js'
-express = require 'express'
 request = require 'supertest'
 sinon = require 'sinon'
-session = require '../'
-User = require '../../models/user'
+session = require '../../lib/session'
+User = require '../../lib/models/user'
+specHelper = require '../spec-helper'
 
 describe 'session', ->
 
   beforeEach ->
-    @app = express()
-    @app.use express.bodyParser()
-    @app.use (req, res, next) => # fake session
-      @req = req
-      @req.session = {}
-      next()
+    @app = specHelper.setUpAppWithFakeSession.call @
     @app.use session
 
   describe 'GET /sessions', ->
 
     # getするrequestのwrapper
-    get = -> request(@app).get('/sessions')
+    get = -> request(@app).get('/')
 
     it 'ユーザ名の入力フィールドを表示すること', (done) ->
       get.call(@)
@@ -40,7 +35,7 @@ describe 'session', ->
     # postするrequestのwrapper
     post = (excercise) ->
       request(@app)
-        .post('/sessions')
+        .post('/')
         .send(username: 'aaaa', password: 'bbbb')  
 
     beforeEach ->
