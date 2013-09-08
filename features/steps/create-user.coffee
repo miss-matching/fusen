@@ -12,7 +12,7 @@ createUserWrapper = module.exports = ->
   @World = require('../support/world').World
 
   @Given /^ユーザ作成画面を開く$/, (callback) ->
-    @visit 'http://localhost:3000/users', callback
+    @visit 'http://localhost:3000/users/new', callback
 
   @When /^ユーザ名、パスワード、パスワードの確認を入力してサブミットする$/, (callback) ->
     u = user()

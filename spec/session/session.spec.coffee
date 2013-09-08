@@ -16,7 +16,7 @@ describe 'session', ->
   describe 'GET /sessions', ->
 
     # getするrequestのwrapper
-    get = -> request(@app).get('/')
+    get = -> request(@app).get('/new')
 
     it 'ユーザ名の入力フィールドを表示すること', (done) ->
       get.call(@)

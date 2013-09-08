@@ -4,7 +4,7 @@ loginWrapper = module.exports = ->
   @World = require('../support/world').World
 
   @Given /^ログイン画面を開く$/, (callback) ->
-    @visit 'http://localhost:3000/sessions', callback
+    @visit 'http://localhost:3000/sessions/new', callback
 
   @When /^ユーザ名とパスワードを入力してサブミットする$/, (callback) ->  
     u = require('../fixtures/user')['registered user']
