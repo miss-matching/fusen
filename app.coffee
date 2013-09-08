@@ -20,9 +20,7 @@ mongoose.connect 'mongodb://localhost:27017/fusen'
 
 app.use '/sessions', require './lib/session'
 app.use '/users', require './lib/user'
-
-app.get '/rooms', (req, res) ->
-  res.send 'Hello world'
+app.use '/rooms', require './lib/room'
 
 unless module.parent
   app.listen 3000

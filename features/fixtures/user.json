@@ -6,5 +6,9 @@
   "not registered user": {
     "username": "new user",
     "password": "resu wen"
+  },
+  "invited user": {
+    "username": "invited user",
+    "password": "resu detivni"
   }
 }
