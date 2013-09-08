@@ -4,7 +4,7 @@ module.exports = (grunt) ->
 
     watch:
       coffee:
-        files: ['app.coffee', 'lib/**/*.coffee']
+        files: ['app.coffee', 'lib/**/*.coffee', 'spec/**/*.coffee']
         tasks: ['unit']
 
     coffee:
@@ -14,6 +14,12 @@ module.exports = (grunt) ->
         src: ['app.coffee', 'lib/**/*.coffee']
         dest: '.'
         ext: '.js'        
+      serverSpec:
+        expand: on
+        cwd: '.'
+        src: ['spec/**/*.coffee']
+        dest: '.'
+        ext: '.spec.js'
 
     cucumberjs:
       files: 'features'
@@ -23,7 +29,7 @@ module.exports = (grunt) ->
         options:
           reporter: 'dot'
           growl: on
-        src: ['lib/**/test/*-test.js']
+        src: ['spec/**/*.spec.js']
 
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-coffee'

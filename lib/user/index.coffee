@@ -14,12 +14,12 @@ app.set 'views', __dirname
 app.set 'view engine', 'ejs'
 app.locals.messages = []
 
-# GET /users
-app.get '/users', (req, res) ->
+# GET /
+app.get '/', (req, res) ->
   res.render 'new'
 
-# POST /users
-app.post '/users', (req, res, next) ->
+# POST /
+app.post '/', (req, res, next) ->
   unless req.body.password is req.body.confirm
     # パスワードが一致しない場合
     return res.render 'new', messages: ['password dose not match']
