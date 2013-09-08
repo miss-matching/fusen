@@ -10,3 +10,7 @@ module.exports = ->
       (cb) => @bootServer cb
       (cb) => @seedUser cb
     ], callback
+
+  @After (callback) ->
+    @shutdownServer callback
+

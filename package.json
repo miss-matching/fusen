@@ -21,7 +21,8 @@
     "debug": "latest",
     "async": "latest",
     "grunt": "latest",
-    "mongoose": "latest"
+    "mongoose": "latest",
+    "bcrypt": "*"
   },
   "devDependencies": {
     "cucumber": "latest",
